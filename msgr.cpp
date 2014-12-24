@@ -231,3 +231,43 @@ void msgr::set_exitCode(bool ec)
 {
 	exit_code = ec;
 }
+
+std::string msgr::get_u1() const
+{
+	return user1;
+}
+
+std::string msgr::get_u2() const
+{
+	return user2;
+}
+
+int msgr::get_step() const
+{
+	return step;
+}
+
+int msgr::get_lastx() const
+{
+	return last_x;
+}
+
+int msgr::get_lasty() const
+{
+	return last_y;
+}
+
+bool msgr::get_verify() const
+{
+	return verify;
+}
+
+bool msgr::get_exitCode() const
+{
+	return exit_code;
+}
+
+int msgr::get_stateCode() const
+{
+	return stateCode;
+}

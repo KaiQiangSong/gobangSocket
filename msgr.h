@@ -37,6 +37,15 @@ public:
 	std::string str() const;
 	void load(std::string);
 	void set_exitCode(bool);
+	std::string get_u1() const;
+	std::string get_u2() const;
+	int get_step() const;
+	int get_lastx() const;
+	int get_lasty() const;
+	bool get_verify() const;
+	bool get_exitCode() const;
+	bool get_stateCode() const;
+
 };
 
 #endif
