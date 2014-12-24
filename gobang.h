@@ -7,8 +7,8 @@
 #define goBang_Wait_White (0x1)
 #define goBang_Win_Black (0x2)
 #define goBang_Win_White (0x3)
-#define goBang_Giveup_Black (0x5)
-#define goBang_Giveup_White (0x6)
+#define goBang_Giveup_Black (0x4)
+#define goBang_Giveup_White (0x5)
 
 class gobang
 {

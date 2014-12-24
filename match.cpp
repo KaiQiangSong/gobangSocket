@@ -12,11 +12,9 @@ match::match():p1(),p2()
 	exit_code = 0;
 }
 
-match::match(user x, user y)
+match::match(user x, user y):p1(x),p2(y)
 {
 	memset(board,0,sizeof(board));
-	p1 = x;
-	p2 = y;
 	id = 0;
 	state_code = -1;
 	last_x =-1;
@@ -24,9 +22,12 @@ match::match(user x, user y)
 	exit_code = 0;
 }
 
-match::match(const match& x)
+match::match(const match& x):p1(x.p1),p2(x.p2),exit_code(x.exit_code)
 {
-	memcpy(this,&x,sizeof(match));
+	last_x = x.last_x;
+	last_y = x.last_y;
+	state_code = x.state_code;
+	memcpy(&board,&(x.board),sizeof(board));
 }
 
 int match::get_id() const
@@ -68,6 +69,8 @@ void match::set_id(int x)
 void match::set_p1(user x)
 {
 	p1 = x;
+	std::cout << "P1:" << p1.get_user() << " " << p1.get_psd() <<std::endl;
+	std::cout << "X:" << x.get_user() << " " << x.get_psd() <<std::endl;
 }
 
 void match::set_p2(user x)
@@ -88,4 +91,10 @@ void match::exitGame(int x)
 int match::get_exitCode() const
 {
 	return exit_code;
+}
+
+const match& match::operator = (match m)
+{
+ 	memcpy(this,&m,sizeof(match));
+	return (*this);
 }

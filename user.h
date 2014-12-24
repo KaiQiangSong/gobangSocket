@@ -21,7 +21,7 @@ public:
 	std::string get_psd() const;
 	friend bool user_load(std::istream ifs);
 	bool operator==(const user&x);
-
+	const user& operator = (user x);
 };
 
 #endif

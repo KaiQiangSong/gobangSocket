@@ -8,7 +8,7 @@ int main()
 	std::cout << " Running Server ... " << std::endl;
 	try
 	{
-		ServerSocket server(10203);
+		ServerSocket server(10205);
 		server.Run();
 	}
 	catch(SocketException& ex)

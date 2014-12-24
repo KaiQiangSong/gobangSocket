@@ -1,5 +1,7 @@
 #include "gobangServer.h"
 
+#include <unistd.h>
+
 gobangServer::gobangServer():matches(),users(),MatchLock(),UserLock(){}
 
 gobangServer::gobangServer(const gobangServer& x)
@@ -36,6 +38,7 @@ int gobangServer::add_Match_U(user x)
 	UserLock.Lock();
 	if (users.size() > 1)
 	{
+		std::cout << "ADD MATCH" << std::endl;
 		user x = users[0];
 		user y = users[1];
 		users.clear();
@@ -124,6 +127,8 @@ std::string gobangServer::Reply(std::string message)
 	msg input(message);
 	int px,py;
 	int reply_code = 0, head = 0;
+	//std::cout << input.get_user() << std::endl;
+	//std::cout << input.get_psd() << std::endl;
 	user x(input.get_user(),input.get_psd());
 	bool verify = x.user_already_registered();
 	bool exit_code = false;
@@ -160,17 +165,46 @@ std::string gobangServer::Reply(std::string message)
 				break;
 		}
 	}
-	MatchLock.Lock();
-	m_iter it = gobangServer::find(x);
-	if (it!=matches.end())
-	{
-		match m_match(*it);
-		MatchLock.Unlock();
-		msgr output(head,m_match,reply_code,verify,exit_code);
-		return output.str();
-	}
-	match m_match;
-	MatchLock.Unlock();
-	msgr output(head,m_match,reply_code,verify,exit_code);
-	return output.str();
+	//std::cout << "End of Switch\n";
+	std::string  res;
+	do {
+		//std::cout << "Check1\n";
+		MatchLock.Lock();
+		//std::cout << "Check2\n";
+		m_iter it = find(x);
+		//std::cout << "Check3\n";
+		if (it !=matches.end())
+		{
+			//std::cout <<"get" << std::endl;
+			int step = it->get_step();
+			int stateCode = it->get_stateCode();
+			int last_x = it->get_lastx();
+			int last_y = it->get_lasty();
+			//std::cout << step << " " << stateCode << " " << last_x << " " << last_y << std::endl;
+			user u1 = it->get_p1();
+			user u2 = it->get_p2();
+			//std::cout << "get user\n";
+			std::string user1 = u1.get_user();
+			std::string user2 = u2.get_user();
+			//std::cout << "get username\n";
+
+			//std::cout <<"Done2" << std::endl;
+			MatchLock.Unlock();
+			//std::cout <<"Done3" << std::endl;
+ 			msgr output(head,user1,user2,step,stateCode,last_x,last_y,reply_code,verify,exit_code);
+			//std::cout <<"Done4" << std::endl;
+			res = output.str();
+			//std::cout <<"Get" << std::endl;
+		} else
+		{
+			//std::cout << "wait" << std::endl;
+			MatchLock.Unlock();
+			res = "@";
+			std::cout << "Wait" << std::endl;
+		}
+		sleep(1);
+		//std::cout << res << std::endl;
+	} while (res == "@");
+	std::cout << "Done\n";
+	return res;
 }

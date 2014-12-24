@@ -26,6 +26,7 @@ public:
 	void set_p2(user x);
 	void set_StateCode(int x);
 	void exitGame(int x);
+	const match& operator = (match m);
 };
 
 #endif

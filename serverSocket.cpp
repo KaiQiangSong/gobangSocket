@@ -71,13 +71,25 @@ void* ServerSocket::ProcessMsg(void * arg)
 {
 	std::string message;
 	Socket* clientSocket = static_cast<Socket*> (arg);
+	
+	std::cout << "Accept one Clinet : " << clientSocket->getAddress() <<  std::endl;
 
-	while (ServerSocket::serviceFlag)
+	if (ServerSocket::serviceFlag)
 	{
 		Receive(*clientSocket,message);
+		
+		std::cout << "Receive Message : " << clientSocket->getAddress() <<  std::endl;
+		std::cout << message << std::endl;
+		std::cout << std::endl;
+		
 		message = ServerSocket::gbServer.Reply(message);
+		
+		std::cout << "Send Message : " << clientSocket->getAddress()  <<  std::endl;
+		std::cout << message << std::endl;
+		std::cout << std::endl;
+		
+		
 		Send(*clientSocket, message);
-		sleep(1);
 	}
 	pthread_exit(NULL);
 	return NULL;

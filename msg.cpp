@@ -20,7 +20,7 @@ msg::msg(std::string user, std::string psd,int op, int px, int py)
 
 msg::msg(std::string message)
 {
-	std::stringstream ss;
+	std::stringstream ss(message);
 	std::string tmp;
 	ss >> tmp >> username;
 	ss >> tmp >> password;
